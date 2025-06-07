@@ -1,0 +1,2817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Stack Roadmaps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-color: #333;
+            --bg-color: #ffffff;
+            --card-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #e2e8f0;
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --border-color: #4a5568;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: var(--transition);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            margin: -2rem -2rem 3rem -2rem;
+            color: white;
+            border-radius: 0 0 2rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .roadmaps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .roadmap-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .roadmap-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .roadmap-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .roadmap-card p {
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .roadmap-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Roadmap Detail Page */
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .roadmap-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .progress-container {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), var(--primary-color));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stage {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .stage-content {
+            padding: 2rem;
+        }
+
+        .topic {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .topic:hover {
+            background: var(--border-color);
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success-color);
+        }
+
+        .topic-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .topic-description {
+            margin-left: 2rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .topic-resources {
+            margin-left: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .resource-link {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .resource-link:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .project-link {
+            background: var(--warning-color);
+        }
+
+        .project-link:hover {
+            background: #d97706;
+        }
+
+        /* Contact Form */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--primary-color);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: var(--transition);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .roadmaps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topic-resources {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 2s infinite;
+        }
+
+        /* Success Messages */
+        .success-message {
+            background: var(--success-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">TechRoadmaps</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                <li><a href="#" onclick="showPage('feedback')">Feedback</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="container">
+                <div class="hero">
+                    <h1>Master Tech Stacks</h1>
+                    <p>Comprehensive roadmaps to guide your journey from beginner to expert developer</p>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Search roadmaps..." id="searchInput" oninput="filterRoadmaps()">
+                </div>
+
+                <div class="roadmaps-grid" id="roadmapsGrid">
+                    <div class="roadmap-card" onclick="showRoadmap('mern')" data-name="mern stack">
+                        <div class="roadmap-icon">⚛️</div>
+                        <h3>MERN Stack</h3>
+                        <p>MongoDB, Express.js, React, and Node.js - Build full-stack web applications</p>
+                        <div class="roadmap-stats">
+                            <span>📚 45 Topics</span>
+                            <span>⏱️ 12 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('java')" data-name="java full stack">
+                        <div class="roadmap-icon">☕</div>
+                        <h3>Java Full Stack</h3>
+                        <p>Java, Spring Boot, and Angular/React - Enterprise-grade applications</p>
+                        <div class="roadmap-stats">
+                            <span>📚 48 Topics</span>
+                            <span>⏱️ 16 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('python')" data-name="python full stack">
+                        <div class="roadmap-icon">🐍</div>
+                        <h3>Python Full Stack</h3>
+                        <p>Python, Django, and React/Vue.js - Rapid web development</p>
+                        <div class="roadmap-stats">
+                            <span>📚 42 Topics</span>
+                            <span>⏱️ 14 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('aiml')" data-name="ai ml stack">
+                        <div class="roadmap-icon">🤖</div>
+                        <h3>AI & ML Stack</h3>
+                        <p>Python, TensorFlow, PyTorch - Build intelligent applications</p>
+                        <div class="roadmap-stats">
+                            <span>📚 50 Topics</span>
+                            <span>⏱️ 16 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('datascience')" data-name="data science stack">
+                        <div class="roadmap-icon">📊</div>
+                        <h3>Data Science Stack</h3>
+                        <p>Python, Pandas, NumPy - Data analysis and visualization</p>
+                        <div class="roadmap-stats">
+                            <span>📚 46 Topics</span>
+                            <span>⏱️ 15 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('mean')" data-name="mean stack">
+                        <div class="roadmap-icon">🅰️</div>
+                        <h3>MEAN Stack</h3>
+                        <p>MongoDB, Express.js, Angular, and Node.js - Enterprise web applications</p>
+                        <div class="roadmap-stats">
+                            <span>📚 48 Topics</span>
+                            <span>⏱️ 14 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('lamp')" data-name="lamp stack">
+                        <div class="roadmap-icon">🐧</div>
+                        <h3>LAMP Stack</h3>
+                        <p>Linux, Apache, MySQL, and PHP - Classic web development stack</p>
+                        <div class="roadmap-stats">
+                            <span>📚 42 Topics</span>
+                            <span>⏱️ 10 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('devops')" data-name="devops stack">
+                        <div class="roadmap-icon">🔄</div>
+                        <h3>DevOps Stack</h3>
+                        <p>Docker, Kubernetes, CI/CD - Modern deployment and operations</p>
+                        <div class="roadmap-stats">
+                            <span>📚 44 Topics</span>
+                            <span>⏱️ 13 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('mobile')" data-name="mobile development stack">
+                        <div class="roadmap-icon">📱</div>
+                        <h3>Mobile Development</h3>
+                        <p>React Native, Flutter - Cross-platform mobile apps</p>
+                        <div class="roadmap-stats">
+                            <span>📚 40 Topics</span>
+                            <span>⏱️ 12 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('blockchain')" data-name="blockchain stack">
+                        <div class="roadmap-icon">⛓️</div>
+                        <h3>Blockchain Development</h3>
+                        <p>Solidity, Ethereum - Smart contracts and DApps</p>
+                        <div class="roadmap-stats">
+                            <span>📚 38 Topics</span>
+                            <span>⏱️ 14 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('cloud')" data-name="cloud computing stack">
+                        <div class="roadmap-icon">☁️</div>
+                        <h3>Cloud Computing</h3>
+                        <p>AWS, Azure, GCP - Cloud infrastructure and services</p>
+                        <div class="roadmap-stats">
+                            <span>📚 44 Topics</span>
+                            <span>⏱️ 15 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('cybersecurity')" data-name="cybersecurity stack">
+                        <div class="roadmap-icon">🔒</div>
+                        <h3>Cybersecurity</h3>
+                        <p>Security tools, ethical hacking, and defense strategies</p>
+                        <div class="roadmap-stats">
+                            <span>📚 52 Topics</span>
+                            <span>⏱️ 18 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('iot')" data-name="iot development stack">
+                        <div class="roadmap-icon">🌐</div>
+                        <h3>IoT Development</h3>
+                        <p>MQTT, Arduino, Raspberry Pi - Smart device solutions</p>
+                        <div class="roadmap-stats">
+                            <span>📚 46 Topics</span>
+                            <span>⏱️ 16 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('arvr')" data-name="ar vr development stack">
+                        <div class="roadmap-icon">🎮</div>
+                        <h3>AR/VR Development</h3>
+                        <p>Unity, Unreal Engine - Immersive experiences</p>
+                        <div class="roadmap-stats">
+                            <span>📚 48 Topics</span>
+                            <span>⏱️ 17 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('lowcode')" data-name="low code no code stack">
+                        <div class="roadmap-icon">⚡</div>
+                        <h3>Low-Code/No-Code</h3>
+                        <p>Bubble, Webflow - Rapid application development</p>
+                        <div class="roadmap-stats">
+                            <span>📚 36 Topics</span>
+                            <span>⏱️ 10 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('qa')" data-name="qa testing stack">
+                        <div class="roadmap-icon">🧪</div>
+                        <h3>QA & Testing</h3>
+                        <p>Selenium, Cypress - Software testing and automation</p>
+                        <div class="roadmap-stats">
+                            <span>📚 42 Topics</span>
+                            <span>⏱️ 14 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('bigdata')" data-name="big data stack">
+                        <div class="roadmap-icon">📊</div>
+                        <h3>Big Data</h3>
+                        <p>Hadoop, Spark - Large-scale data processing</p>
+                        <div class="roadmap-stats">
+                            <span>📚 50 Topics</span>
+                            <span>⏱️ 16 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('functional')" data-name="functional programming stack">
+                        <div class="roadmap-icon">λ</div>
+                        <h3>Functional Programming</h3>
+                        <p>Scala, Haskell - Pure functional development</p>
+                        <div class="roadmap-stats">
+                            <span>📚 44 Topics</span>
+                            <span>⏱️ 15 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('embedded')" data-name="embedded systems stack">
+                        <div class="roadmap-icon">🔌</div>
+                        <h3>Embedded Systems</h3>
+                        <p>C/C++, RTOS - Hardware-software integration</p>
+                        <div class="roadmap-stats">
+                            <span>📚 48 Topics</span>
+                            <span>⏱️ 16 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('game')" data-name="game development stack">
+                        <div class="roadmap-icon">🎲</div>
+                        <h3>Game Development</h3>
+                        <p>Unity, Unreal Engine - Interactive game creation</p>
+                        <div class="roadmap-stats">
+                            <span>📚 52 Topics</span>
+                            <span>⏱️ 18 Weeks</span>
+                        </div>
+                    </div>
+
+                    <div class="roadmap-card" onclick="showRoadmap('quantum')" data-name="quantum computing stack">
+                        <div class="roadmap-icon">⚛️</div>
+                        <h3>Quantum Computing</h3>
+                        <p>Qiskit, Cirq - Quantum algorithms and applications</p>
+                        <div class="roadmap-stats">
+                            <span>📚 46 Topics</span>
+                            <span>⏱️ 16 Weeks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap Detail Page -->
+        <div id="roadmap" class="page">
+            <div class="container">
+                <button class="btn btn-secondary" onclick="showPage('home')" style="margin-bottom: 2rem;">← Back to Home</button>
+                
+                <div class="roadmap-header">
+                    <h1 class="roadmap-title" id="roadmapTitle">MERN Stack Roadmap</h1>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% Complete</div>
+                </div>
+
+                <div id="roadmapContent"></div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Contact Us</h1>
+                <div class="form-container">
+                    <form id="contactForm" onsubmit="submitContactForm(event)">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required>
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <div class="error-message" id="messageError"></div>
+                        </div>
+
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Page -->
+        <div id="feedback" class="page">
+            <div class="container">
+                <h1 style="text-align: center; margin-bottom: 2rem;">Your Feedback</h1>
+                <div class="form-container">
+                    <form id="feedbackForm" onsubmit="submitFeedbackForm(event)">
+                        <div class="form-group">
+                            <label for="feedbackType">Feedback Type</label>
+                            <select id="feedbackType" name="feedbackType" style="width: 100%; padding: 1rem; border: 2px solid var(--border-color); border-radius: 0.5rem; background: var(--bg-color); color: var(--text-color);">
+                                <option value="suggestion">Suggestion</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="improvement">Improvement</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="feedbackMessage">Your Feedback *</label>
+                            <textarea id="feedbackMessage" name="feedbackMessage" rows="6" required placeholder="Tell us what you think..."></textarea>
+                            <div class="error-message" id="feedbackError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rating">Rate your experience (1-5)</label>
+                            <input type="range" id="rating" name="rating" min="1" max="5" value="5" style="width: 100%;">
+                            <div style="text-align: center; margin-top: 0.5rem;">
+                                <span id="ratingValue">5</span> ⭐
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Roadmap data
+        const roadmaps = {
+            mern: {
+                title: "MERN Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "HTML & CSS Fundamentals",
+                                description: "Learn semantic HTML5 and modern CSS3 including Flexbox and Grid",
+                                resources: [
+                                    { name: "MDN HTML Guide", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+                                    { name: "CSS Tricks", url: "https://css-tricks.com/" }
+                                ],
+                                projects: [
+                                    { name: "Portfolio Website", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "JavaScript ES6+",
+                                description: "Master modern JavaScript including async/await, destructuring, and modules",
+                                resources: [
+                                    { name: "JavaScript.info", url: "https://javascript.info/" },
+                                    { name: "ES6 Features", url: "https://es6-features.org/" }
+                                ],
+                                projects: [
+                                    { name: "Todo App", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Frontend",
+                        topics: [
+                            {
+                                title: "React Fundamentals",
+                                description: "Components, JSX, props, state, and lifecycle methods",
+                                resources: [
+                                    { name: "React Documentation", url: "https://reactjs.org/docs/" },
+                                    { name: "React Tutorial", url: "https://reactjs.org/tutorial/" }
+                                ],
+                                projects: [
+                                    { name: "Weather App", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Backend & Full Stack",
+                        topics: [
+                            {
+                                title: "Node.js & Express",
+                                description: "Server-side JavaScript and RESTful API development",
+                                resources: [
+                                    { name: "Node.js Docs", url: "https://nodejs.org/en/docs/" },
+                                    { name: "Express.js Guide", url: "https://expressjs.com/" }
+                                ],
+                                projects: [
+                                    { name: "REST API", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            java: {
+                title: "Java Full Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Java Fundamentals",
+                        topics: [
+                            {
+                                title: "Core Java",
+                                description: "Java syntax, OOP concepts, and data structures",
+                                resources: [
+                                    { name: "Oracle Java Tutorials", url: "https://docs.oracle.com/javase/tutorial/" },
+                                    { name: "Java Programming", url: "https://www.w3schools.com/java/" }
+                                ],
+                                projects: [
+                                    { name: "Banking System", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Advanced Java",
+                                description: "Collections, Generics, and Exception Handling",
+                                resources: [
+                                    { name: "Java Collections", url: "https://docs.oracle.com/javase/8/docs/technotes/guides/collections/" },
+                                    { name: "Java Generics", url: "https://docs.oracle.com/javase/tutorial/java/generics/" }
+                                ],
+                                projects: [
+                                    { name: "Library Management", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Spring Framework",
+                        topics: [
+                            {
+                                title: "Spring Core",
+                                description: "Dependency Injection, IoC, and Spring Boot",
+                                resources: [
+                                    { name: "Spring Framework", url: "https://spring.io/projects/spring-framework" },
+                                    { name: "Spring Boot", url: "https://spring.io/projects/spring-boot" }
+                                ],
+                                projects: [
+                                    { name: "REST Service", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Spring Data & Security",
+                                description: "JPA, Hibernate, and Spring Security",
+                                resources: [
+                                    { name: "Spring Data JPA", url: "https://spring.io/projects/spring-data-jpa" },
+                                    { name: "Spring Security", url: "https://spring.io/projects/spring-security" }
+                                ],
+                                projects: [
+                                    { name: "Secure API", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Full Stack Development",
+                        topics: [
+                            {
+                                title: "Frontend Integration",
+                                description: "Angular or React with Spring Boot",
+                                resources: [
+                                    { name: "Angular with Spring", url: "https://spring.io/guides/tutorials/spring-security-and-angular-js/" },
+                                    { name: "React with Spring", url: "https://spring.io/guides/tutorials/react-and-spring-data-rest/" }
+                                ],
+                                projects: [
+                                    { name: "Full Stack App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Microservices",
+                                description: "Spring Cloud, Docker, and Kubernetes",
+                                resources: [
+                                    { name: "Spring Cloud", url: "https://spring.io/projects/spring-cloud" },
+                                    { name: "Microservices Guide", url: "https://spring.io/microservices" }
+                                ],
+                                projects: [
+                                    { name: "Microservices Architecture", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            python: {
+                title: "Python Full Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Python Fundamentals",
+                        topics: [
+                            {
+                                title: "Python Basics",
+                                description: "Python syntax, data types, and control structures",
+                                resources: [
+                                    { name: "Python Documentation", url: "https://docs.python.org/3/" },
+                                    { name: "Python Tutorial", url: "https://www.python.org/about/gettingstarted/" }
+                                ],
+                                projects: [
+                                    { name: "Python Calculator", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Advanced Python",
+                                description: "OOP, decorators, and async programming",
+                                resources: [
+                                    { name: "Python OOP", url: "https://docs.python.org/3/tutorial/classes.html" },
+                                    { name: "Async Python", url: "https://docs.python.org/3/library/asyncio.html" }
+                                ],
+                                projects: [
+                                    { name: "Task Manager", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Web Development",
+                        topics: [
+                            {
+                                title: "Django Framework",
+                                description: "MVT architecture, ORM, and admin interface",
+                                resources: [
+                                    { name: "Django Documentation", url: "https://docs.djangoproject.com/" },
+                                    { name: "Django Tutorial", url: "https://docs.djangoproject.com/en/stable/intro/tutorial01/" }
+                                ],
+                                projects: [
+                                    { name: "Blog Website", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Django REST Framework",
+                                description: "API development and serialization",
+                                resources: [
+                                    { name: "DRF Documentation", url: "https://www.django-rest-framework.org/" },
+                                    { name: "DRF Tutorial", url: "https://www.django-rest-framework.org/tutorial/quickstart/" }
+                                ],
+                                projects: [
+                                    { name: "REST API", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Full Stack Development",
+                        topics: [
+                            {
+                                title: "Frontend Integration",
+                                description: "React or Vue.js with Django",
+                                resources: [
+                                    { name: "Django + React", url: "https://www.django-rest-framework.org/topics/frontend-integration/" },
+                                    { name: "Django + Vue", url: "https://www.django-rest-framework.org/topics/frontend-integration/" }
+                                ],
+                                projects: [
+                                    { name: "Full Stack App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Deployment & DevOps",
+                                description: "Docker, CI/CD, and cloud deployment",
+                                resources: [
+                                    { name: "Docker with Django", url: "https://docs.docker.com/samples/django/" },
+                                    { name: "Django Deployment", url: "https://docs.djangoproject.com/en/stable/howto/deployment/" }
+                                ],
+                                projects: [
+                                    { name: "Deployed Application", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            mean: {
+                title: "MEAN Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "HTML & CSS Fundamentals",
+                                description: "Learn semantic HTML5 and modern CSS3 including Flexbox and Grid",
+                                resources: [
+                                    { name: "MDN HTML Guide", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+                                    { name: "CSS Tricks", url: "https://css-tricks.com/" }
+                                ],
+                                projects: [
+                                    { name: "Portfolio Website", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "TypeScript Fundamentals",
+                                description: "Learn TypeScript basics, types, interfaces, and decorators",
+                                resources: [
+                                    { name: "TypeScript Handbook", url: "https://www.typescriptlang.org/docs/" },
+                                    { name: "TypeScript Deep Dive", url: "https://basarat.gitbook.io/typescript/" }
+                                ],
+                                projects: [
+                                    { name: "TypeScript Calculator", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Frontend",
+                        topics: [
+                            {
+                                title: "Angular Fundamentals",
+                                description: "Components, services, and dependency injection",
+                                resources: [
+                                    { name: "Angular Documentation", url: "https://angular.io/docs" },
+                                    { name: "Angular Tutorial", url: "https://angular.io/tutorial" }
+                                ],
+                                projects: [
+                                    { name: "Angular Todo App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Angular Advanced",
+                                description: "RxJS, NgRx, and advanced patterns",
+                                resources: [
+                                    { name: "RxJS Documentation", url: "https://rxjs.dev/" },
+                                    { name: "NgRx Documentation", url: "https://ngrx.io/docs" }
+                                ],
+                                projects: [
+                                    { name: "State Management App", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Backend & Full Stack",
+                        topics: [
+                            {
+                                title: "Node.js & Express",
+                                description: "Server-side JavaScript and RESTful API development",
+                                resources: [
+                                    { name: "Node.js Docs", url: "https://nodejs.org/en/docs/" },
+                                    { name: "Express.js Guide", url: "https://expressjs.com/" }
+                                ],
+                                projects: [
+                                    { name: "REST API", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "MongoDB & Mongoose",
+                                description: "NoSQL database and ODM",
+                                resources: [
+                                    { name: "MongoDB University", url: "https://university.mongodb.com/" },
+                                    { name: "Mongoose Docs", url: "https://mongoosejs.com/" }
+                                ],
+                                projects: [
+                                    { name: "Blog Application", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            lamp: {
+                title: "LAMP Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "Linux Basics",
+                                description: "Learn Linux commands, file system, and server management",
+                                resources: [
+                                    { name: "Linux Journey", url: "https://linuxjourney.com/" },
+                                    { name: "Linux Documentation", url: "https://www.linux.org/docs/" }
+                                ],
+                                projects: [
+                                    { name: "Server Setup", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "HTML & CSS",
+                                description: "Web development fundamentals",
+                                resources: [
+                                    { name: "MDN HTML Guide", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+                                    { name: "CSS Tricks", url: "https://css-tricks.com/" }
+                                ],
+                                projects: [
+                                    { name: "Static Website", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Backend",
+                        topics: [
+                            {
+                                title: "PHP Programming",
+                                description: "PHP syntax, OOP, and web development",
+                                resources: [
+                                    { name: "PHP Documentation", url: "https://www.php.net/docs.php" },
+                                    { name: "PHP Tutorial", url: "https://www.w3schools.com/php/" }
+                                ],
+                                projects: [
+                                    { name: "PHP Blog System", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "MySQL Database",
+                                description: "Database design, SQL queries, and optimization",
+                                resources: [
+                                    { name: "MySQL Documentation", url: "https://dev.mysql.com/doc/" },
+                                    { name: "MySQL Tutorial", url: "https://www.mysqltutorial.org/" }
+                                ],
+                                projects: [
+                                    { name: "Database Design", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Full Stack",
+                        topics: [
+                            {
+                                title: "Apache Web Server",
+                                description: "Server configuration, virtual hosts, and security",
+                                resources: [
+                                    { name: "Apache Documentation", url: "https://httpd.apache.org/docs/" },
+                                    { name: "Apache Tutorial", url: "https://httpd.apache.org/docs/2.4/tutorial.html" }
+                                ],
+                                projects: [
+                                    { name: "Configure Virtual Hosts", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Security & Performance",
+                                description: "Web security, caching, and optimization",
+                                resources: [
+                                    { name: "OWASP Guide", url: "https://owasp.org/" },
+                                    { name: "Performance Optimization", url: "https://developer.mozilla.org/en-US/docs/Web/Performance" }
+                                ],
+                                projects: [
+                                    { name: "Secure Web Application", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            aiml: {
+                title: "AI & ML Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "Python Programming",
+                                description: "Python basics, data structures, and OOP",
+                                resources: [
+                                    { name: "Python Documentation", url: "https://docs.python.org/3/" },
+                                    { name: "Python Tutorial", url: "https://www.python.org/about/gettingstarted/" }
+                                ],
+                                projects: [
+                                    { name: "Python Basics", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Mathematics for ML",
+                                description: "Linear algebra, calculus, and statistics",
+                                resources: [
+                                    { name: "Khan Academy", url: "https://www.khanacademy.org/" },
+                                    { name: "3Blue1Brown", url: "https://www.3blue1brown.com/" }
+                                ],
+                                projects: [
+                                    { name: "Math Exercises", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Data & ML",
+                        topics: [
+                            {
+                                title: "Data Processing",
+                                description: "NumPy, Pandas, and data manipulation",
+                                resources: [
+                                    { name: "NumPy Documentation", url: "https://numpy.org/doc/" },
+                                    { name: "Pandas Documentation", url: "https://pandas.pydata.org/docs/" }
+                                ],
+                                projects: [
+                                    { name: "Data Analysis", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Machine Learning",
+                                description: "Scikit-learn and basic algorithms",
+                                resources: [
+                                    { name: "Scikit-learn Documentation", url: "https://scikit-learn.org/stable/" },
+                                    { name: "Machine Learning Mastery", url: "https://machinelearningmastery.com/" }
+                                ],
+                                projects: [
+                                    { name: "ML Model", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Deep Learning",
+                        topics: [
+                            {
+                                title: "Deep Learning",
+                                description: "Neural networks and deep learning frameworks",
+                                resources: [
+                                    { name: "TensorFlow Tutorial", url: "https://www.tensorflow.org/tutorials" },
+                                    { name: "PyTorch Tutorial", url: "https://pytorch.org/tutorials/" }
+                                ],
+                                projects: [
+                                    { name: "Neural Network", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Specialized AI",
+                                description: "Computer Vision, NLP, and Reinforcement Learning",
+                                resources: [
+                                    { name: "OpenCV Tutorial", url: "https://docs.opencv.org/master/d9/df8/tutorial_root.html" },
+                                    { name: "Hugging Face", url: "https://huggingface.co/course" }
+                                ],
+                                projects: [
+                                    { name: "AI Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            datascience: {
+                title: "Data Science Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "Python for Data Science",
+                                description: "Python programming and data structures",
+                                resources: [
+                                    { name: "Python Documentation", url: "https://docs.python.org/3/" },
+                                    { name: "DataCamp Python", url: "https://www.datacamp.com/courses/intro-to-python-for-data-science" }
+                                ],
+                                projects: [
+                                    { name: "Python Basics", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Statistics & Probability",
+                                description: "Statistical concepts and probability theory",
+                                resources: [
+                                    { name: "Statistics Course", url: "https://www.khanacademy.org/math/statistics-probability" },
+                                    { name: "Probability Theory", url: "https://www.probabilitycourse.com/" }
+                                ],
+                                projects: [
+                                    { name: "Statistical Analysis", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Analysis",
+                        topics: [
+                            {
+                                title: "Data Analysis",
+                                description: "Pandas, NumPy, and data manipulation",
+                                resources: [
+                                    { name: "Pandas Documentation", url: "https://pandas.pydata.org/docs/" },
+                                    { name: "NumPy Documentation", url: "https://numpy.org/doc/" }
+                                ],
+                                projects: [
+                                    { name: "Data Analysis", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Data Visualization",
+                                description: "Matplotlib, Seaborn, and Plotly",
+                                resources: [
+                                    { name: "Matplotlib Tutorial", url: "https://matplotlib.org/tutorials/" },
+                                    { name: "Seaborn Tutorial", url: "https://seaborn.pydata.org/tutorial.html" }
+                                ],
+                                projects: [
+                                    { name: "Data Visualization", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Big Data",
+                        topics: [
+                            {
+                                title: "SQL & Databases",
+                                description: "SQL queries and database management",
+                                resources: [
+                                    { name: "SQL Tutorial", url: "https://www.w3schools.com/sql/" },
+                                    { name: "PostgreSQL Documentation", url: "https://www.postgresql.org/docs/" }
+                                ],
+                                projects: [
+                                    { name: "Database Project", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Big Data Tools",
+                                description: "Apache Spark, Hadoop, and distributed computing",
+                                resources: [
+                                    { name: "Spark Documentation", url: "https://spark.apache.org/docs/latest/" },
+                                    { name: "Hadoop Tutorial", url: "https://hadoop.apache.org/docs/current/" }
+                                ],
+                                projects: [
+                                    { name: "Big Data Analysis", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            devops: {
+                title: "DevOps Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "Linux & Shell Scripting",
+                                description: "Linux commands and shell scripting",
+                                resources: [
+                                    { name: "Linux Journey", url: "https://linuxjourney.com/" },
+                                    { name: "Shell Scripting Tutorial", url: "https://www.shellscript.sh/" }
+                                ],
+                                projects: [
+                                    { name: "Shell Scripts", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Git & Version Control",
+                                description: "Git commands and GitHub workflows",
+                                resources: [
+                                    { name: "Git Documentation", url: "https://git-scm.com/doc" },
+                                    { name: "GitHub Learning Lab", url: "https://lab.github.com/" }
+                                ],
+                                projects: [
+                                    { name: "Git Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Containerization",
+                        topics: [
+                            {
+                                title: "Docker & Containers",
+                                description: "Containerization and Docker fundamentals",
+                                resources: [
+                                    { name: "Docker Documentation", url: "https://docs.docker.com/" },
+                                    { name: "Docker Tutorial", url: "https://www.docker.com/101-tutorial" }
+                                ],
+                                projects: [
+                                    { name: "Docker Project", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Kubernetes",
+                                description: "Container orchestration and management",
+                                resources: [
+                                    { name: "Kubernetes Documentation", url: "https://kubernetes.io/docs/" },
+                                    { name: "Kubernetes Tutorial", url: "https://kubernetes.io/docs/tutorials/" }
+                                ],
+                                projects: [
+                                    { name: "K8s Deployment", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Automation",
+                        topics: [
+                            {
+                                title: "CI/CD & Automation",
+                                description: "Jenkins, GitHub Actions, and automation",
+                                resources: [
+                                    { name: "Jenkins Documentation", url: "https://www.jenkins.io/doc/" },
+                                    { name: "GitHub Actions", url: "https://docs.github.com/en/actions" }
+                                ],
+                                projects: [
+                                    { name: "CI/CD Pipeline", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Infrastructure as Code",
+                                description: "Terraform, Ansible, and cloud infrastructure",
+                                resources: [
+                                    { name: "Terraform Documentation", url: "https://www.terraform.io/docs" },
+                                    { name: "Ansible Documentation", url: "https://docs.ansible.com/" }
+                                ],
+                                projects: [
+                                    { name: "Infrastructure Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            mobile: {
+                title: "Mobile Development Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "JavaScript & TypeScript",
+                                description: "Modern JavaScript and TypeScript",
+                                resources: [
+                                    { name: "JavaScript.info", url: "https://javascript.info/" },
+                                    { name: "TypeScript Handbook", url: "https://www.typescriptlang.org/docs/" }
+                                ],
+                                projects: [
+                                    { name: "JS/TS Basics", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Mobile UI/UX",
+                                description: "Mobile design patterns and best practices",
+                                resources: [
+                                    { name: "Material Design", url: "https://material.io/design" },
+                                    { name: "iOS Human Interface", url: "https://developer.apple.com/design/human-interface-guidelines/" }
+                                ],
+                                projects: [
+                                    { name: "UI Design", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Cross-Platform",
+                        topics: [
+                            {
+                                title: "React Native",
+                                description: "Cross-platform development with React Native",
+                                resources: [
+                                    { name: "React Native Documentation", url: "https://reactnative.dev/docs/getting-started" },
+                                    { name: "React Native Tutorial", url: "https://reactnative.dev/docs/tutorial" }
+                                ],
+                                projects: [
+                                    { name: "Mobile App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Flutter",
+                                description: "Cross-platform development with Flutter",
+                                resources: [
+                                    { name: "Flutter Documentation", url: "https://flutter.dev/docs" },
+                                    { name: "Flutter Tutorial", url: "https://flutter.dev/docs/get-started/flutter-for/react-native-devs" }
+                                ],
+                                projects: [
+                                    { name: "Flutter App", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Native & Performance",
+                        topics: [
+                            {
+                                title: "Native Development",
+                                description: "iOS (Swift) and Android (Kotlin) development",
+                                resources: [
+                                    { name: "Swift Documentation", url: "https://swift.org/documentation/" },
+                                    { name: "Kotlin Documentation", url: "https://kotlinlang.org/docs/home.html" }
+                                ],
+                                projects: [
+                                    { name: "Native App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Performance & Testing",
+                                description: "App performance optimization and testing",
+                                resources: [
+                                    { name: "Performance Guide", url: "https://developer.android.com/topic/performance" },
+                                    { name: "Testing Guide", url: "https://developer.android.com/training/testing" }
+                                ],
+                                projects: [
+                                    { name: "Performance Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            blockchain: {
+                title: "Blockchain Development Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Foundations",
+                        topics: [
+                            {
+                                title: "Blockchain Basics",
+                                description: "Blockchain concepts and cryptography",
+                                resources: [
+                                    { name: "Blockchain Basics", url: "https://ethereum.org/en/developers/docs/intro-to-ethereum/" },
+                                    { name: "Cryptography", url: "https://www.coursera.org/learn/cryptography" }
+                                ],
+                                projects: [
+                                    { name: "Blockchain Concept", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "JavaScript & Web3",
+                                description: "JavaScript and Web3.js basics",
+                                resources: [
+                                    { name: "JavaScript.info", url: "https://javascript.info/" },
+                                    { name: "Web3.js Documentation", url: "https://web3js.readthedocs.io/" }
+                                ],
+                                projects: [
+                                    { name: "Web3 Basics", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Smart Contracts",
+                        topics: [
+                            {
+                                title: "Solidity Programming",
+                                description: "Smart contract development with Solidity",
+                                resources: [
+                                    { name: "Solidity Documentation", url: "https://docs.soliditylang.org/" },
+                                    { name: "Ethereum Development", url: "https://ethereum.org/developers/" }
+                                ],
+                                projects: [
+                                    { name: "Smart Contract", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Testing & Security",
+                                description: "Smart contract testing and security",
+                                resources: [
+                                    { name: "Smart Contract Security", url: "https://consensys.github.io/smart-contract-best-practices/" },
+                                    { name: "Testing Guide", url: "https://hardhat.org/tutorial/testing-contracts" }
+                                ],
+                                projects: [
+                                    { name: "Secure Contract", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - DApp Development",
+                        topics: [
+                            {
+                                title: "DApp Architecture",
+                                description: "Decentralized application architecture",
+                                resources: [
+                                    { name: "DApp Development", url: "https://ethereum.org/en/developers/docs/dapps/" },
+                                    { name: "Truffle Suite", url: "https://www.trufflesuite.com/docs" }
+                                ],
+                                projects: [
+                                    { name: "DApp Project", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Advanced Topics",
+                                description: "Layer 2, DeFi, and NFTs",
+                                resources: [
+                                    { name: "Layer 2 Guide", url: "https://ethereum.org/en/layer-2/" },
+                                    { name: "DeFi Guide", url: "https://ethereum.org/en/defi/" }
+                                ],
+                                projects: [
+                                    { name: "Advanced DApp", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            cloud: {
+                title: "Cloud Computing Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Cloud Fundamentals",
+                        topics: [
+                            {
+                                title: "Cloud Computing Basics",
+                                description: "Cloud models, services, and deployment types",
+                                resources: [
+                                    { name: "AWS Cloud Concepts", url: "https://aws.amazon.com/getting-started/fundamentals-core-concepts/" },
+                                    { name: "Azure Fundamentals", url: "https://docs.microsoft.com/en-us/learn/paths/azure-fundamentals/" }
+                                ],
+                                projects: [
+                                    { name: "Cloud Architecture", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Linux & Networking",
+                                description: "Linux administration and network fundamentals",
+                                resources: [
+                                    { name: "Linux Journey", url: "https://linuxjourney.com/" },
+                                    { name: "Network Fundamentals", url: "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html" }
+                                ],
+                                projects: [
+                                    { name: "Network Setup", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Cloud Services",
+                        topics: [
+                            {
+                                title: "AWS Core Services",
+                                description: "EC2, S3, RDS, and Lambda",
+                                resources: [
+                                    { name: "AWS Documentation", url: "https://docs.aws.amazon.com/" },
+                                    { name: "AWS Tutorial", url: "https://aws.amazon.com/getting-started/" }
+                                ],
+                                projects: [
+                                    { name: "AWS Project", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Azure Services",
+                                description: "Virtual Machines, Storage, and Functions",
+                                resources: [
+                                    { name: "Azure Documentation", url: "https://docs.microsoft.com/en-us/azure/" },
+                                    { name: "Azure Tutorial", url: "https://docs.microsoft.com/en-us/learn/azure/" }
+                                ],
+                                projects: [
+                                    { name: "Azure Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Cloud Architecture",
+                        topics: [
+                            {
+                                title: "Cloud Architecture",
+                                description: "High availability, scalability, and security",
+                                resources: [
+                                    { name: "AWS Architecture", url: "https://aws.amazon.com/architecture/" },
+                                    { name: "Azure Architecture", url: "https://docs.microsoft.com/en-us/azure/architecture/" }
+                                ],
+                                projects: [
+                                    { name: "Cloud Solution", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "DevOps & Automation",
+                                description: "Infrastructure as Code and CI/CD",
+                                resources: [
+                                    { name: "Terraform", url: "https://www.terraform.io/docs" },
+                                    { name: "CloudFormation", url: "https://docs.aws.amazon.com/cloudformation/" }
+                                ],
+                                projects: [
+                                    { name: "Automated Infrastructure", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            cybersecurity: {
+                title: "Cybersecurity Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Security Fundamentals",
+                        topics: [
+                            {
+                                title: "Security Basics",
+                                description: "Security principles, threats, and vulnerabilities",
+                                resources: [
+                                    { name: "Security Fundamentals", url: "https://www.coursera.org/learn/security-fundamentals" },
+                                    { name: "OWASP Top 10", url: "https://owasp.org/www-project-top-ten/" }
+                                ],
+                                projects: [
+                                    { name: "Security Assessment", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Network Security",
+                                description: "Network protocols, firewalls, and VPNs",
+                                resources: [
+                                    { name: "Network Security", url: "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/security.html" },
+                                    { name: "Security Tools", url: "https://www.kali.org/tools/" }
+                                ],
+                                projects: [
+                                    { name: "Network Defense", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Security Tools",
+                        topics: [
+                            {
+                                title: "Ethical Hacking",
+                                description: "Penetration testing and vulnerability assessment",
+                                resources: [
+                                    { name: "Kali Linux", url: "https://www.kali.org/" },
+                                    { name: "Metasploit", url: "https://www.metasploit.com/" }
+                                ],
+                                projects: [
+                                    { name: "Security Testing", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Security Monitoring",
+                                description: "SIEM, IDS/IPS, and log analysis",
+                                resources: [
+                                    { name: "Splunk", url: "https://www.splunk.com/en_us/training.html" },
+                                    { name: "Wireshark", url: "https://www.wireshark.org/docs/" }
+                                ],
+                                projects: [
+                                    { name: "Monitoring System", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Security Operations",
+                        topics: [
+                            {
+                                title: "Incident Response",
+                                description: "Security incident handling and forensics",
+                                resources: [
+                                    { name: "Incident Response", url: "https://www.sans.org/reading-room/whitepapers/incident/incident-handlers-handbook-33901" },
+                                    { name: "Digital Forensics", url: "https://www.sans.org/reading-room/whitepapers/forensics/" }
+                                ],
+                                projects: [
+                                    { name: "Incident Response Plan", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Security Architecture",
+                                description: "Security design and implementation",
+                                resources: [
+                                    { name: "Security Architecture", url: "https://www.sans.org/reading-room/whitepapers/securitypolicy/security-architecture-1232" },
+                                    { name: "Zero Trust", url: "https://www.nist.gov/publications/zero-trust-architecture" }
+                                ],
+                                projects: [
+                                    { name: "Security Architecture", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            iot: {
+                title: "IoT Development Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - IoT Fundamentals",
+                        topics: [
+                            {
+                                title: "Electronics Basics",
+                                description: "Basic electronics, circuits, and components",
+                                resources: [
+                                    { name: "Electronics Tutorial", url: "https://www.electronics-tutorials.ws/" },
+                                    { name: "Arduino Basics", url: "https://www.arduino.cc/en/Guide/Introduction" }
+                                ],
+                                projects: [
+                                    { name: "Basic Circuit", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Microcontrollers",
+                                description: "Arduino and Raspberry Pi programming",
+                                resources: [
+                                    { name: "Arduino Documentation", url: "https://docs.arduino.cc/" },
+                                    { name: "Raspberry Pi Guide", url: "https://www.raspberrypi.org/documentation/" }
+                                ],
+                                projects: [
+                                    { name: "LED Control", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - IoT Development",
+                        topics: [
+                            {
+                                title: "IoT Protocols",
+                                description: "MQTT, CoAP, and WebSocket",
+                                resources: [
+                                    { name: "MQTT Guide", url: "https://mqtt.org/documentation" },
+                                    { name: "IoT Protocols", url: "https://www.postscapes.com/internet-of-things-protocols/" }
+                                ],
+                                projects: [
+                                    { name: "MQTT Project", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Node-RED",
+                                description: "Visual programming for IoT",
+                                resources: [
+                                    { name: "Node-RED Guide", url: "https://nodered.org/docs/" },
+                                    { name: "Node-RED Tutorial", url: "https://nodered.org/docs/tutorials/" }
+                                ],
+                                projects: [
+                                    { name: "IoT Dashboard", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - IoT Systems",
+                        topics: [
+                            {
+                                title: "IoT Cloud Platforms",
+                                description: "AWS IoT, Azure IoT, and Google Cloud IoT",
+                                resources: [
+                                    { name: "AWS IoT", url: "https://aws.amazon.com/iot/" },
+                                    { name: "Azure IoT", url: "https://azure.microsoft.com/en-us/services/iot-hub/" }
+                                ],
+                                projects: [
+                                    { name: "Cloud Integration", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "IoT Security",
+                                description: "Device security and data protection",
+                                resources: [
+                                    { name: "IoT Security Guide", url: "https://www.owasp.org/index.php/IoT_Security_Guidelines" },
+                                    { name: "IoT Security Best Practices", url: "https://www.nist.gov/iot" }
+                                ],
+                                projects: [
+                                    { name: "Secure IoT System", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            arvr: {
+                title: "AR/VR Development Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - AR/VR Fundamentals",
+                        topics: [
+                            {
+                                title: "3D Graphics Basics",
+                                description: "3D modeling, animation, and rendering",
+                                resources: [
+                                    { name: "Blender Tutorial", url: "https://www.blender.org/support/tutorials/" },
+                                    { name: "3D Graphics Guide", url: "https://www.khronos.org/opengl/wiki/Main_Page" }
+                                ],
+                                projects: [
+                                    { name: "3D Model", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Unity Basics",
+                                description: "Unity engine and C# programming",
+                                resources: [
+                                    { name: "Unity Learn", url: "https://learn.unity.com/" },
+                                    { name: "Unity Documentation", url: "https://docs.unity3d.com/" }
+                                ],
+                                projects: [
+                                    { name: "Unity Scene", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - AR/VR Development",
+                        topics: [
+                            {
+                                title: "AR Development",
+                                description: "ARKit, ARCore, and WebXR",
+                                resources: [
+                                    { name: "ARKit Documentation", url: "https://developer.apple.com/augmented-reality/" },
+                                    { name: "ARCore Guide", url: "https://developers.google.com/ar" }
+                                ],
+                                projects: [
+                                    { name: "AR App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "VR Development",
+                                description: "VR SDKs and interaction design",
+                                resources: [
+                                    { name: "Oculus Developer", url: "https://developer.oculus.com/" },
+                                    { name: "SteamVR", url: "https://developer.valvesoftware.com/wiki/SteamVR" }
+                                ],
+                                projects: [
+                                    { name: "VR Experience", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - AR/VR Systems",
+                        topics: [
+                            {
+                                title: "Advanced Graphics",
+                                description: "Shaders, optimization, and effects",
+                                resources: [
+                                    { name: "Shader Graph", url: "https://docs.unity3d.com/Packages/com.unity.shadergraph@latest/" },
+                                    { name: "Graphics Programming", url: "https://www.khronos.org/opengl/wiki/Main_Page" }
+                                ],
+                                projects: [
+                                    { name: "Custom Shader", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Multiplayer AR/VR",
+                                description: "Networking and social features",
+                                resources: [
+                                    { name: "Unity Networking", url: "https://docs.unity3d.com/Manual/UNet.html" },
+                                    { name: "Photon Engine", url: "https://doc.photonengine.com/" }
+                                ],
+                                projects: [
+                                    { name: "Multiplayer Game", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            lowcode: {
+                title: "Low-Code/No-Code Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Platform Basics",
+                        topics: [
+                            {
+                                title: "Bubble.io",
+                                description: "Visual programming and app development",
+                                resources: [
+                                    { name: "Bubble Academy", url: "https://bubble.io/academy" },
+                                    { name: "Bubble Documentation", url: "https://bubble.io/documentation" }
+                                ],
+                                projects: [
+                                    { name: "Basic App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Webflow",
+                                description: "Website design and development",
+                                resources: [
+                                    { name: "Webflow University", url: "https://university.webflow.com/" },
+                                    { name: "Webflow Documentation", url: "https://docs.webflow.com/" }
+                                ],
+                                projects: [
+                                    { name: "Website", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Advanced Features",
+                        topics: [
+                            {
+                                title: "Adalo",
+                                description: "Mobile app development",
+                                resources: [
+                                    { name: "Adalo Academy", url: "https://academy.adalo.com/" },
+                                    { name: "Adalo Documentation", url: "https://help.adalo.com/" }
+                                ],
+                                projects: [
+                                    { name: "Mobile App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "OutSystems",
+                                description: "Enterprise application development",
+                                resources: [
+                                    { name: "OutSystems Training", url: "https://www.outsystems.com/training/" },
+                                    { name: "OutSystems Documentation", url: "https://success.outsystems.com/documentation" }
+                                ],
+                                projects: [
+                                    { name: "Enterprise App", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Integration & Deployment",
+                        topics: [
+                            {
+                                title: "API Integration",
+                                description: "Connecting with external services",
+                                resources: [
+                                    { name: "API Integration Guide", url: "https://bubble.io/plugin/api-connector" },
+                                    { name: "Webflow API", url: "https://developers.webflow.com/" }
+                                ],
+                                projects: [
+                                    { name: "Integrated App", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Deployment & Scaling",
+                                description: "App deployment and performance optimization",
+                                resources: [
+                                    { name: "Deployment Guide", url: "https://bubble.io/guide/deployment" },
+                                    { name: "Scaling Guide", url: "https://bubble.io/guide/scaling" }
+                                ],
+                                projects: [
+                                    { name: "Production App", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            qa: {
+                title: "QA & Testing Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Testing Fundamentals",
+                        topics: [
+                            {
+                                title: "Testing Basics",
+                                description: "Testing types, methodologies, and best practices",
+                                resources: [
+                                    { name: "Testing Fundamentals", url: "https://www.guru99.com/software-testing.html" },
+                                    { name: "ISTQB Syllabus", url: "https://www.istqb.org/downloads/category/2-foundation-level-documents.html" }
+                                ],
+                                projects: [
+                                    { name: "Test Plan", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Manual Testing",
+                                description: "Test case design and execution",
+                                resources: [
+                                    { name: "Manual Testing Guide", url: "https://www.tutorialspoint.com/software_testing/index.htm" },
+                                    { name: "Test Case Design", url: "https://www.guru99.com/test-case.html" }
+                                ],
+                                projects: [
+                                    { name: "Test Cases", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Automation",
+                        topics: [
+                            {
+                                title: "Selenium",
+                                description: "Web automation testing",
+                                resources: [
+                                    { name: "Selenium Documentation", url: "https://www.selenium.dev/documentation/" },
+                                    { name: "Selenium Tutorial", url: "https://www.guru99.com/selenium-tutorial.html" }
+                                ],
+                                projects: [
+                                    { name: "Automated Tests", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Cypress",
+                                description: "Modern web testing framework",
+                                resources: [
+                                    { name: "Cypress Documentation", url: "https://docs.cypress.io/" },
+                                    { name: "Cypress Tutorial", url: "https://docs.cypress.io/guides/getting-started/writing-your-first-test" }
+                                ],
+                                projects: [
+                                    { name: "E2E Tests", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Performance & Security",
+                        topics: [
+                            {
+                                title: "Performance Testing",
+                                description: "JMeter and load testing",
+                                resources: [
+                                    { name: "JMeter Documentation", url: "https://jmeter.apache.org/usermanual/" },
+                                    { name: "Performance Testing Guide", url: "https://www.guru99.com/performance-testing.html" }
+                                ],
+                                projects: [
+                                    { name: "Load Test", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "API Testing",
+                                description: "Postman and API automation",
+                                resources: [
+                                    { name: "Postman Learning", url: "https://learning.postman.com/" },
+                                    { name: "API Testing Guide", url: "https://www.postman.com/api-platform/api-testing/" }
+                                ],
+                                projects: [
+                                    { name: "API Test Suite", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            bigdata: {
+                title: "Big Data Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Data Fundamentals",
+                        topics: [
+                            {
+                                title: "Big Data Basics",
+                                description: "Concepts, architecture, and use cases",
+                                resources: [
+                                    { name: "Big Data Guide", url: "https://www.ibm.com/analytics/hadoop/big-data-analytics" },
+                                    { name: "Big Data Tutorial", url: "https://www.tutorialspoint.com/big_data/index.htm" }
+                                ],
+                                projects: [
+                                    { name: "Data Analysis", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Hadoop Ecosystem",
+                                description: "HDFS, MapReduce, and YARN",
+                                resources: [
+                                    { name: "Hadoop Documentation", url: "https://hadoop.apache.org/docs/current/" },
+                                    { name: "Hadoop Tutorial", url: "https://www.tutorialspoint.com/hadoop/index.htm" }
+                                ],
+                                projects: [
+                                    { name: "Hadoop Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Processing & Analysis",
+                        topics: [
+                            {
+                                title: "Apache Spark",
+                                description: "Distributed computing and data processing",
+                                resources: [
+                                    { name: "Spark Documentation", url: "https://spark.apache.org/docs/latest/" },
+                                    { name: "Spark Tutorial", url: "https://spark.apache.org/examples.html" }
+                                ],
+                                projects: [
+                                    { name: "Spark Application", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Apache Kafka",
+                                description: "Stream processing and messaging",
+                                resources: [
+                                    { name: "Kafka Documentation", url: "https://kafka.apache.org/documentation/" },
+                                    { name: "Kafka Tutorial", url: "https://kafka.apache.org/quickstart" }
+                                ],
+                                projects: [
+                                    { name: "Streaming Pipeline", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Data Engineering",
+                        topics: [
+                            {
+                                title: "Data Warehousing",
+                                description: "Hive, HBase, and data storage",
+                                resources: [
+                                    { name: "Hive Documentation", url: "https://cwiki.apache.org/confluence/display/Hive/Home" },
+                                    { name: "HBase Guide", url: "https://hbase.apache.org/book.html" }
+                                ],
+                                projects: [
+                                    { name: "Data Warehouse", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Data Pipeline",
+                                description: "ETL processes and data flow",
+                                resources: [
+                                    { name: "Data Pipeline Guide", url: "https://www.oreilly.com/library/view/data-pipelines-pocket/9781492087823/" },
+                                    { name: "ETL Best Practices", url: "https://www.ibm.com/cloud/learn/etl" }
+                                ],
+                                projects: [
+                                    { name: "ETL Pipeline", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            functional: {
+                title: "Functional Programming Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Functional Concepts",
+                        topics: [
+                            {
+                                title: "Functional Basics",
+                                description: "Pure functions, immutability, and higher-order functions",
+                                resources: [
+                                    { name: "Functional Programming", url: "https://www.coursera.org/learn/functional-programming" },
+                                    { name: "FP Concepts", url: "https://www.fpcomplete.com/haskell/tutorial/" }
+                                ],
+                                projects: [
+                                    { name: "Basic Functions", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Haskell Basics",
+                                description: "Haskell syntax and functional patterns",
+                                resources: [
+                                    { name: "Haskell Book", url: "http://learnyouahaskell.com/" },
+                                    { name: "Haskell Documentation", url: "https://www.haskell.org/documentation/" }
+                                ],
+                                projects: [
+                                    { name: "Haskell Program", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Advanced Concepts",
+                        topics: [
+                            {
+                                title: "Scala Programming",
+                                description: "Scala language and functional features",
+                                resources: [
+                                    { name: "Scala Documentation", url: "https://docs.scala-lang.org/" },
+                                    { name: "Scala Tutorial", url: "https://www.scala-exercises.org/" }
+                                ],
+                                projects: [
+                                    { name: "Scala Application", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Clojure Development",
+                                description: "Clojure and functional programming",
+                                resources: [
+                                    { name: "Clojure Documentation", url: "https://clojure.org/guides/getting_started" },
+                                    { name: "Clojure Tutorial", url: "https://www.braveclojure.com/" }
+                                ],
+                                projects: [
+                                    { name: "Clojure Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Functional Systems",
+                        topics: [
+                            {
+                                title: "F# Development",
+                                description: "F# and .NET functional programming",
+                                resources: [
+                                    { name: "F# Documentation", url: "https://docs.microsoft.com/en-us/dotnet/fsharp/" },
+                                    { name: "F# Tutorial", url: "https://fsharp.org/learn/" }
+                                ],
+                                projects: [
+                                    { name: "F# Application", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Functional Architecture",
+                                description: "Designing systems with functional principles",
+                                resources: [
+                                    { name: "Functional Architecture", url: "https://www.manning.com/books/functional-programming-in-scala" },
+                                    { name: "Domain Modeling", url: "https://fsharpforfunandprofit.com/ddd/" }
+                                ],
+                                projects: [
+                                    { name: "System Design", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            embedded: {
+                title: "Embedded Systems Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Embedded Basics",
+                        topics: [
+                            {
+                                title: "C/C++ Programming",
+                                description: "C/C++ for embedded systems",
+                                resources: [
+                                    { name: "C Programming", url: "https://www.learn-c.org/" },
+                                    { name: "C++ Tutorial", url: "https://www.learncpp.com/" }
+                                ],
+                                projects: [
+                                    { name: "Basic Program", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Digital Electronics",
+                                description: "Digital circuits and microcontrollers",
+                                resources: [
+                                    { name: "Digital Electronics", url: "https://www.electronics-tutorials.ws/digital/" },
+                                    { name: "Microcontroller Guide", url: "https://www.microchip.com/en-us/development-tools-tools-and-software" }
+                                ],
+                                projects: [
+                                    { name: "Circuit Design", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - System Development",
+                        topics: [
+                            {
+                                title: "RTOS",
+                                description: "Real-time operating systems",
+                                resources: [
+                                    { name: "FreeRTOS Guide", url: "https://www.freertos.org/documentation/" },
+                                    { name: "RTOS Tutorial", url: "https://www.rtos.com/documentation/" }
+                                ],
+                                projects: [
+                                    { name: "RTOS Application", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Hardware Interfaces",
+                                description: "I2C, SPI, UART, and GPIO",
+                                resources: [
+                                    { name: "Interface Guide", url: "https://www.embedded.com/design/prototyping-and-development/4007654/Understanding-the-I2C-Bus" },
+                                    { name: "Protocol Tutorial", url: "https://www.analog.com/en/analog-dialogue/articles/uart-a-hardware-communication-protocol.html" }
+                                ],
+                                projects: [
+                                    { name: "Interface Project", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - System Integration",
+                        topics: [
+                            {
+                                title: "System Design",
+                                description: "Architecture and optimization",
+                                resources: [
+                                    { name: "Embedded Systems Design", url: "https://www.embedded.com/design/" },
+                                    { name: "System Architecture", url: "https://www.embedded.com/design/prototyping-and-development/4007654/Understanding-the-I2C-Bus" }
+                                ],
+                                projects: [
+                                    { name: "System Design", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Testing & Debugging",
+                                description: "Hardware testing and debugging",
+                                resources: [
+                                    { name: "Debugging Guide", url: "https://www.embedded.com/design/prototyping-and-development/4007654/Understanding-the-I2C-Bus" },
+                                    { name: "Testing Tools", url: "https://www.embedded.com/design/prototyping-and-development/4007654/Understanding-the-I2C-Bus" }
+                                ],
+                                projects: [
+                                    { name: "Test System", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            game: {
+                title: "Game Development Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Game Development Fundamentals",
+                        topics: [
+                            {
+                                title: "Game Design Basics",
+                                description: "Game mechanics, level design, and player psychology",
+                                resources: [
+                                    { name: "Game Design Theory", url: "https://www.gamasutra.com/" },
+                                    { name: "Level Design Guide", url: "https://www.worldofleveldesign.com/" }
+                                ],
+                                projects: [
+                                    { name: "Game Design Document", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Unity Basics",
+                                description: "Unity engine, C# programming, and game objects",
+                                resources: [
+                                    { name: "Unity Learn", url: "https://learn.unity.com/" },
+                                    { name: "Unity Documentation", url: "https://docs.unity3d.com/" }
+                                ],
+                                projects: [
+                                    { name: "Simple Game", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Game Development",
+                        topics: [
+                            {
+                                title: "Advanced Unity",
+                                description: "Physics, animation, and particle systems",
+                                resources: [
+                                    { name: "Unity Physics", url: "https://docs.unity3d.com/Manual/Physics.html" },
+                                    { name: "Unity Animation", url: "https://docs.unity3d.com/Manual/AnimationSection.html" }
+                                ],
+                                projects: [
+                                    { name: "Physics Game", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Unreal Engine",
+                                description: "Blueprints, materials, and lighting",
+                                resources: [
+                                    { name: "Unreal Learning", url: "https://www.unrealengine.com/en-US/learn" },
+                                    { name: "Unreal Documentation", url: "https://docs.unrealengine.com/" }
+                                ],
+                                projects: [
+                                    { name: "3D Environment", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Game Systems",
+                        topics: [
+                            {
+                                title: "Game Networking",
+                                description: "Multiplayer, networking, and synchronization",
+                                resources: [
+                                    { name: "Unity Networking", url: "https://docs.unity3d.com/Manual/UNet.html" },
+                                    { name: "Unreal Networking", url: "https://docs.unrealengine.com/4.27/en-US/InteractiveExperiences/Networking/" }
+                                ],
+                                projects: [
+                                    { name: "Multiplayer Game", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Game Optimization",
+                                description: "Performance, memory management, and profiling",
+                                resources: [
+                                    { name: "Unity Optimization", url: "https://docs.unity3d.com/Manual/PerformanceOptimization.html" },
+                                    { name: "Unreal Optimization", url: "https://docs.unrealengine.com/4.27/en-US/TestingAndOptimization/" }
+                                ],
+                                projects: [
+                                    { name: "Optimized Game", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            quantum: {
+                title: "Quantum Computing Stack Roadmap",
+                stages: [
+                    {
+                        name: "Beginner - Quantum Fundamentals",
+                        topics: [
+                            {
+                                title: "Quantum Mechanics",
+                                description: "Basic quantum mechanics and principles",
+                                resources: [
+                                    { name: "Quantum Mechanics", url: "https://www.khanacademy.org/science/physics/quantum-physics" },
+                                    { name: "Quantum Computing Basics", url: "https://qiskit.org/textbook/preface.html" }
+                                ],
+                                projects: [
+                                    { name: "Quantum States", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Linear Algebra",
+                                description: "Mathematical foundations for quantum computing",
+                                resources: [
+                                    { name: "Linear Algebra", url: "https://www.khanacademy.org/math/linear-algebra" },
+                                    { name: "Matrix Operations", url: "https://www.mathsisfun.com/algebra/matrix-introduction.html" }
+                                ],
+                                projects: [
+                                    { name: "Matrix Operations", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Intermediate - Quantum Programming",
+                        topics: [
+                            {
+                                title: "Qiskit",
+                                description: "IBM's quantum computing framework",
+                                resources: [
+                                    { name: "Qiskit Documentation", url: "https://qiskit.org/documentation/" },
+                                    { name: "Qiskit Tutorials", url: "https://qiskit.org/documentation/tutorials.html" }
+                                ],
+                                projects: [
+                                    { name: "Quantum Circuit", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Cirq",
+                                description: "Google's quantum computing framework",
+                                resources: [
+                                    { name: "Cirq Documentation", url: "https://quantumai.google/cirq" },
+                                    { name: "Cirq Tutorials", url: "https://quantumai.google/cirq/tutorials" }
+                                ],
+                                projects: [
+                                    { name: "Quantum Algorithm", url: "#" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Advanced - Quantum Applications",
+                        topics: [
+                            {
+                                title: "Quantum Algorithms",
+                                description: "Shor's, Grover's, and other quantum algorithms",
+                                resources: [
+                                    { name: "Quantum Algorithms", url: "https://qiskit.org/textbook/ch-algorithms/index.html" },
+                                    { name: "Algorithm Implementation", url: "https://quantumai.google/cirq/tutorials" }
+                                ],
+                                projects: [
+                                    { name: "Algorithm Implementation", url: "#" }
+                                ]
+                            },
+                            {
+                                title: "Quantum Error Correction",
+                                description: "Error correction and fault tolerance",
+                                resources: [
+                                    { name: "Error Correction", url: "https://qiskit.org/textbook/ch-quantum-hardware/error-correction-repetition-code.html" },
+                                    { name: "Fault Tolerance", url: "https://quantumai.google/cirq/tutorials" }
+                                ],
+                                projects: [
+                                    { name: "Error Correction Code", url: "#" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.querySelector('.theme-toggle').textContent = '☀️ Light';
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu if open
+            const navMenu = document.getElementById('navMenu');
+            const hamburger = document.querySelector('.hamburger');
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        }
+
+        // Roadmap Display
+        function showRoadmap(roadmapId) {
+            const roadmap = roadmaps[roadmapId];
+            if (!roadmap) return;
+
+            document.getElementById('roadmapTitle').textContent = roadmap.title;
+            const roadmapContent = document.getElementById('roadmapContent');
+            roadmapContent.innerHTML = '';
+
+            roadmap.stages.forEach(stage => {
+                const stageElement = document.createElement('div');
+                stageElement.className = 'stage';
+                stageElement.innerHTML = `
+                    <div class="stage-header">${stage.name}</div>
+                    <div class="stage-content">
+                        ${stage.topics.map(topic => `
+                            <div class="topic">
+                                <div class="topic-header">
+                                    <input type="checkbox" class="topic-checkbox" onchange="updateProgress()">
+                                    <div class="topic-title">${topic.title}</div>
+                                </div>
+                                <div class="topic-description">${topic.description}</div>
+                                <div class="topic-resources">
+                                    ${topic.resources.map(resource => `
+                                        <a href="${resource.url}" class="resource-link" target="_blank">${resource.name}</a>
+                                    `).join('')}
+                                    ${topic.projects.map(project => `
+                                        <a href="${project.url}" class="resource-link project-link" target="_blank">${project.name}</a>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                roadmapContent.appendChild(stageElement);
+            });
+
+            showPage('roadmap');
+            updateProgress();
+        }
+
+        // Progress Tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.topic-checkbox');
+            const total = checkboxes.length;
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${percentage}% Complete`;
+
+            // Save progress
+            const roadmapId = document.getElementById('roadmapTitle').textContent.toLowerCase().replace(' roadmap', '');
+            const progress = JSON.parse(localStorage.getItem('roadmapProgress') || '{}');
+            progress[roadmapId] = { completed, total };
+            localStorage.setItem('roadmapProgress', JSON.stringify(progress));
+        }
+
+        // Search Functionality
+        function filterRoadmaps() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.roadmap-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+
+                if (name.includes(searchTerm) || title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Form Submissions
+        function submitContactForm(event) {
+            event.preventDefault();
+            
+            // Basic validation
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Simulate form submission
+            const form = document.getElementById('contactForm');
+            form.innerHTML = '<div class="success-message">Thank you for your message! We will get back to you soon.</div>';
+        }
+
+        function submitFeedbackForm(event) {
+            event.preventDefault();
+            
+            const feedbackType = document.getElementById('feedbackType').value;
+            const feedbackMessage = document.getElementById('feedbackMessage').value.trim();
+            const rating = document.getElementById('rating').value;
+            
+            if (!feedbackMessage) {
+                alert('Please provide your feedback message');
+                return;
+            }
+
+            // Simulate form submission
+            const form = document.getElementById('feedbackForm');
+            form.innerHTML = '<div class="success-message">Thank you for your feedback! We appreciate your input.</div>';
+        }
+
+        // Rating Display
+        document.getElementById('rating').addEventListener('input', function() {
+            document.getElementById('ratingValue').textContent = this.value;
+        });
+
+        // Load saved progress when showing roadmap
+        function loadSavedProgress(roadmapId) {
+            const progress = JSON.parse(localStorage.getItem('roadmapProgress') || '{}');
+            const roadmapProgress = progress[roadmapId];
+            
+            if (roadmapProgress) {
+                const checkboxes = document.querySelectorAll('.topic-checkbox');
+                checkboxes.forEach((checkbox, index) => {
+                    if (index < roadmapProgress.completed) {
+                        checkbox.checked = true;
+                    }
+                });
+                updateProgress();
+            }
+        }
+    </script>
+</body>
+</html>
