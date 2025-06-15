@@ -2781,9 +2781,39 @@
                 return;
             }
 
-            // Simulate form submission
-            const form = document.getElementById('contactForm');
-            form.innerHTML = '<div class="success-message">Thank you for your message! We will get back to you soon.</div>';
+            // Show loading state
+            const submitButton = document.querySelector('#contactForm button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
+
+            // Submit to Formspree
+            fetch('https://formspree.io/f/mpwrrdpz', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    message: message
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    const form = document.getElementById('contactForm');
+                    form.innerHTML = '<div class="success-message">Thank you for your message! We will get back to you soon.</div>';
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                // Show error message
+                alert('Sorry, there was a problem submitting your form. Please try again.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            });
         }
 
         function submitFeedbackForm(event) {
@@ -2798,9 +2828,39 @@
                 return;
             }
 
-            // Simulate form submission
-            const form = document.getElementById('feedbackForm');
-            form.innerHTML = '<div class="success-message">Thank you for your feedback! We appreciate your input.</div>';
+            // Show loading state
+            const submitButton = document.querySelector('#feedbackForm button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Submitting...';
+            submitButton.disabled = true;
+
+            // Submit to Formspree
+            fetch('https://formspree.io/f/mrbkkqpq', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    feedbackType: feedbackType,
+                    feedbackMessage: feedbackMessage,
+                    rating: rating
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    const form = document.getElementById('feedbackForm');
+                    form.innerHTML = '<div class="success-message">Thank you for your feedback! We appreciate your input.</div>';
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                // Show error message
+                alert('Sorry, there was a problem submitting your feedback. Please try again.');
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            });
         }
 
         // Rating Display
